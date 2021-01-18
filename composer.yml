@@ -1,0 +1,39 @@
+- name: composer
+  hosts: servers
+  become: true
+  become_user: root
+  become_method: sudo
+  vars_files:
+    - variables.yml
+  tasks:
+    - name: install curl
+      apt:
+        name: 'curl'
+        state: 'latest'
+    - name: install git
+      apt:
+        name: 'git'
+        state: 'latest'
+    - name: set up composer
+      apt:
+        name: composer
+        state: latest
+    - name: downgrade to composer 1
+      command: "composer self-update --1"
+    - name: set config composer
+      command: "echo y | composer config --global http-basic.repo.magento.com {{ magento_account_public_key }} {{ magento_account_private_key }}"
+    - name: download magento
+      shell:
+        cmd: "echo y | sudo composer create-project --repository=https://repo.magento.com/ magento/project-community-edition magento2_demo"
+        chdir: "/var/www"
+    - name: install composer
+      shell:
+        cmd: "echo y | sudo composer install"
+        chdir: "{{absolute_path_folder}}"
+    - name: create vhost
+      template:
+        src: "templates/nginx/m2demo.j2"
+        dest: "/etc/nginx/sites-enabled/m2demo.conf"
+    - name: enable site
+      shell:
+        cmd: "service restart"

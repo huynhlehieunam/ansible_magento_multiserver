@@ -12,10 +12,36 @@
       apt_repository: repo='ppa:ondrej/php'
     - name: install php
       apt:
-        name: "{{php_pks}}"
-    - name: php.ini
-        replace:
-          path: "/etc/php/7.4/fpm/php.ini"
-          regexp: "^memory_limit = .+$"
-          line: 'short_open_tag = On'
-          backup: yes
+        name: "{{ php_pks }}"
+    - name: config cli php
+      template:
+        src: templates/php/php.j2
+        dest: /etc/php/7.4/cli/php.ini
+    - name: config fpm php
+      template:
+        src: templates/php/php.j2
+        dest: /etc/php/7.4/cli/php.ini
+    - name: restart service
+      service:
+        name: nginx
+        state: restarted
+    - name: conf www.conf
+      replace:
+        path: /etc/php/7.4/fpm/pool.d/www.conf
+        regexp: "^({{item.name}}) = .+$"
+        replace: "{{item.replace}}"
+        backup: 1
+      loop:
+        - name: "user"
+          replace: "user = {{running_php_user}}"
+        - name: "group"
+          replace: "group = {{running_php_group_user}}"
+        - name: "listen.owner"
+          replace: "listen.owner = {{running_php_user}}"
+        - name: "listen.group"
+          replace: "listen.group = {{running_php_user}}"
+
+    - name: restart service
+      service:
+        name: php7.4-fpm
+        state: restarted

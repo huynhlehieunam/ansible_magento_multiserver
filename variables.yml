@@ -2,6 +2,20 @@ mysql_user: "huynhlehieunam"
 mysql_password: "@123123HieuNam"
 db_name: "magento2_demo"
 
+
+absolute_path_folder: "/var/www/magento2_demo"
+
+admin_account: "admin"
+admin_password: "admin@123"
+
+magento_account_public_key: "59edb566179be40e107083193cd8f913"
+magento_account_private_key: "3a627e5dd402472abf93627b4fab1219"
+
+domain_name: "m2demo.local"
+base_url_http: "https://m2demo.local/"
+db_host: "localhost"
+
+
 php_pks:
   - php7.4-fpm
   - php7.4-common
@@ -15,3 +29,8 @@ php_pks:
   - php7.4-xml
   - php7.4-cli
   - php7.4-zip
+  - php7.4-soap
+  -
+
+running_php_user: www-data
+running_php_group_user: www-data

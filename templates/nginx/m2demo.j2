@@ -1,0 +1,19 @@
+upstream fastcgi_backend {
+  server fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name {domain_name};
+    index  index.php;
+
+    set $MAGE_ROOT {absolute_path_folder};
+    set $MAGE_MODE production;
+
+    access_log /var/log/nginx/example.com-access.log;
+    error_log /var/log/nginx/example.com-error.log;
+
+    include {absolute_path_folder}/nginx.conf.sample;
+}
