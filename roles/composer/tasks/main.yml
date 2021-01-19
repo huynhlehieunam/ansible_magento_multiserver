@@ -1,0 +1,8 @@
+- name: install composer git curl
+  apt:
+    name: "{{item}}"
+    state: latest
+  loop:
+    - git
+    - curl
+    - composer

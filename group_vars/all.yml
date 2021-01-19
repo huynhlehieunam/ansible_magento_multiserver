@@ -1,0 +1,19 @@
+magento_db_host: localhost
+magento_db_name: magento
+magento_db_user: magento
+magento_db_password: "@123123HieuNam"
+
+php_version: 7.4
+
+public_key: d15365ab3529287a91decf9dc479293c
+private_key: d197c5a88d789cb400432dc5969fb80c
+
+dir: "/var/www/html/ansible_demo"
+onlyDirName: "ansible_demo"
+base_url: "http://ansible.demo/"
+domain_name: "ansible.demo"
+admin_user: "admin"
+admin_password: "admin"
+
+php_user: "www-data"
+php_group: "www-data"

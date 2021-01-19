@@ -1,0 +1,11 @@
+- name: Install maria
+  apt:
+    name: "{{item}}"
+    state: latest
+  loop:
+    - mariadb-server
+    - mariadb-client
+- name: restart mariadb
+  service:
+    name: mariadb
+    state: restarted
