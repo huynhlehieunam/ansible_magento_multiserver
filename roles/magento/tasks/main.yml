@@ -14,10 +14,11 @@
 - name: add auth
   shell:
     cmd: "echo y | sudo composer global config http-basic.repo.magento.com {{public_key}} {{private_key}}"
-- name: create m2 project
-  shell:
-    cmd: "echo y | sudo composer create-project --repository=https://repo.magento.com/ magento/project-community-edition {{onlyDirName}}"
-    chdir: "/var/www/html"
+
+#- name: create m2 project
+#  shell:
+#    cmd: "echo y | sudo composer create-project --repository=https://repo.magento.com/ magento/project-community-edition {{onlyDirName}}"
+#    chdir: "/var/www/html"
 - name: setup m2
   shell:
     cmd: "bin/magento setup:install --base-url={{base_url}} --db-host={{magento_db_host}} --db-name={{magento_db_name}} --db-user={{magento_db_user}} --db-password={{magento_db_password}} --admin-firstname=Admin --admin-lastname=User --admin-email=admin@example.com --admin-user={{admin_user}} --admin-password={{admin_password}} --language=en_US --currency=USD --timezone=America/Chicago --use-rewrites=1"
@@ -25,8 +26,8 @@
 - name: "chmod {{dir}}"
   file:
     path: "{{dir}}"
-    owner: "{{admin_user}}"
-    group: "{{admin_password}}"
+    owner: "{{php_user}}"
+    group: "{{php_group}}"
     mode: "1777"
     recurse: 1
     state: directory
@@ -37,7 +38,7 @@
 - name: add nginx
   template:
     src: "../templates/ansible.demo.j2"
-    dest: "/etc/nginx/site-enabled/ansible.demo.conf"
+    dest: "/etc/nginx/sites-enabled/ansible.demo.conf"
 - name: restart nginx
   service:
     name: nginx

@@ -13,7 +13,7 @@ onlyDirName: "ansible_demo"
 base_url: "http://ansible.demo/"
 domain_name: "ansible.demo"
 admin_user: "admin"
-admin_password: "admin"
+admin_password: "@admin123"
 
 php_user: "www-data"
 php_group: "www-data"

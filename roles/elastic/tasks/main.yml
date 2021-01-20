@@ -1,0 +1,18 @@
+- name: "add gpt"
+  shell: curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+- name: "add source"
+  shell: echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+- name: "install elastic"
+  apt:
+    name: elasticsearch
+    state: latest
+    update_cache: yes
+- name: config elastic
+  replace:
+    regexp: ".+network.host.+$"
+    replace: "network.host: {{magento_db_host}}"
+    path: "/etc/elasticsearch/elasticsearch.yml"
+- name: restart service
+  service:
+    name: elasticsearch
+    state: restarted

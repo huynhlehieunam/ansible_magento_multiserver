@@ -9,8 +9,9 @@
       loop:
         - python3-pymysql
   roles:
-#    - nginx
-#    - php
-#    - maria
-#    - composer
+    - nginx
+    - php
+    - maria
+    - composer
+    - elastic
     - magento

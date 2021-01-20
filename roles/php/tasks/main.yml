@@ -9,6 +9,8 @@
   loop:
     - software-properties-common
     - php{{php_version}}
+    - php{{php_version}}-curl
+    - php{{php_version}}-zip
     - php{{php_version}}-fpm
     - php{{php_version}}-pdo
     - php{{php_version}}-mysqlnd
