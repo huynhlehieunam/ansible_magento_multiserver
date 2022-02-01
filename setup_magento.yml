@@ -1,0 +1,10 @@
+- name: This DOES NOT WORK
+  hosts: all
+  become: true
+  tasks:
+    - include: absible_lb.yml
+    - include: absible_db.yml
+    - include: absible_nfs.yml
+    - include: absible_els.yml
+    - include: absible_redis.yml
+    - include: absible_webnode.yml

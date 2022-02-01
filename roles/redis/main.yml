@@ -1,0 +1,7 @@
+- name: "install redis"
+  apt:
+    name: redis-server
+    update-cache: yes
+    state: latest
+- name: "restart redis"
+  shell: systemctl restart redis.service

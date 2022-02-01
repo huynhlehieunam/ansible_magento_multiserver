@@ -17,3 +17,7 @@ admin_password: "@admin123"
 
 php_user: "www-data"
 php_group: "www-data"
+web1_ip: 172.16.95.130
+web1_port: 80
+web2_ip: 172.16.95.131
+web2_port: 80

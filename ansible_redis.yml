@@ -1,0 +1,12 @@
+- name: Setup Redis Server
+  hosts: redis
+  become: true
+  pre_tasks:
+    - name: install pymysql 2.7 3.0
+      apt:
+        name: "{{item}}"
+        state: latest
+      loop:
+        - python3-pymysql
+  roles:
+    - redis

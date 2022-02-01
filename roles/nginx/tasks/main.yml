@@ -2,7 +2,15 @@
   apt:
     name: nginx
     state: latest
-- name: restart nginx
-  service:
-    name: nginx
-    state: restarted
+- name: add to ect hosts
+  lineinfile:
+    path: "/etc/hosts"
+    line: "127.0.0.1 {{domain_name}}"
+- name: add nginx
+  template:
+    src: "../templates/ansible.demo.j2"
+    dest: "/etc/nginx/sites-enabled/ansible.demo.conf"
+#- name: restart nginx
+#  service:
+#    name: nginx
+#    state: restarted

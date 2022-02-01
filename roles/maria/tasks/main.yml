@@ -9,3 +9,16 @@
   service:
     name: mariadb
     state: restarted
+- name: create db
+  mysql_db:
+    name: "{{magento_db_name}}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    state: present
+- name: create user
+  mysql_user:
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    name: "{{magento_db_user}}"
+    password: "{{magento_db_password}}"
+    host: "{{magento_db_host}}"
+    priv: "*.*:ALL"
+    state: present

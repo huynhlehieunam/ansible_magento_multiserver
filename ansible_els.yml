@@ -1,0 +1,12 @@
+- name: Setup Elastic Server
+  hosts: web_node
+  become: true
+  pre_tasks:
+    - name: install pymysql 2.7 3.0
+      apt:
+        name: "{{item}}"
+        state: latest
+      loop:
+        - python3-pymysql
+  roles:
+    - elastic

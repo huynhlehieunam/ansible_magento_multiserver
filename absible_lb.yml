@@ -1,6 +1,8 @@
-- name: Install magento2 in LAMP
-  hosts: servers
-  become: true
+- name: Setup load balance
+  hosts: lb
+  become: yes
+  vars_files:
+    - group_vars/all.yml
   pre_tasks:
     - name: install pymysql 2.7 3.0
       apt:
@@ -9,9 +11,4 @@
       loop:
         - python3-pymysql
   roles:
-    - nginx
-    - php
-    - maria
-    - composer
-    - elastic
-    - magento
+    - varnish
