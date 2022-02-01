@@ -9,4 +9,4 @@
       loop:
         - python3-pymysql
   roles:
-    - mariadb
+    - maria

@@ -1,23 +1,49 @@
 vcl 4.0;
 
 import std;
+import directors;    # load the directors
 # The minimal Varnish version is 4.0
 # For SSL offloading, pass the following header in your proxy server or load balancer: 'X-Forwarded-Proto: https'
 
 backend web1 {
     .host = "{{web1_ip}}";
     .port = "{{web1_port}}";
+    .first_byte_timeout = 600s;
+    .probe = {
+        .url = "/pub/health_check.php";
+        .timeout = 2s;
+        .interval = 5s;
+        .window = 10;
+        .threshold = 5;
+   }
 }
 backend web2 {
     .host = "{{web2_ip}}";
     .port = "{{web2_port}}";
+    .first_byte_timeout = 600s;
+    .probe = {
+        .url = "/pub/health_check.php";
+        .timeout = 2s;
+        .interval = 5s;
+        .window = 10;
+        .threshold = 5;
+   }
 }
 
 acl purge {
     "localhost";
 }
 
+sub vcl_init {
+    new vdir = directors.round_robin();
+    vdir.add_backend(web1);
+    vdir.add_backend(web2);
+}
+
+
 sub vcl_recv {
+    set req.backend_hint = vdir.backend();
+
     if (req.method == "PURGE") {
         if (client.ip !~ purge) {
             return (synth(405, "Method not allowed"));
@@ -230,7 +256,7 @@ sub vcl_hit {
             return (deliver);
         } else {
             # Hit after TTL and grace expiration
-            return (fetch);
+            return (fail);
         }
     } else {
         # server is not healthy, retrieve from cache
